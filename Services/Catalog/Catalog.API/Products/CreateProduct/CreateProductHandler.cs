@@ -1,5 +1,6 @@
 ﻿using BuildingBlocks.CQRS;
 using Catalog.API.Models;
+using JasperFx.CodeGeneration.Frames;
 using Marten;
 
 namespace Catalog.API.Products.CreateProduct
@@ -9,10 +10,9 @@ namespace Catalog.API.Products.CreateProduct
     public record CreateProductResult(Guid Id);
     internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
-        public async  Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             //===== BUSINESS LOGIC TO CREATE A PRODUCT =====\\
-
             var product = new Product
             {
                 Name = command.Name,
@@ -22,12 +22,12 @@ namespace Catalog.API.Products.CreateProduct
                 Price = command.Price
             };
 
-            session.Store(product);
-            await session.SaveChangesAsync(cancellationToken);
+            //===== DAVE TO DB =====\\
 
-            return new CreateProductResult(product.Id);
+
+            return new CreateProductResult(Guid.NewGuid());
 
         }
     }
 }
-               
+                            

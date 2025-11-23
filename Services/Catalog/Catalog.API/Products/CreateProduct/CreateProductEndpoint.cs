@@ -14,15 +14,14 @@
 
                 var result = await sender.Send(command);
 
-                var response = result.Adapt<CreateProductResponse>();
+                var response = request.Adapt<CreateProductResponse>();
 
-                return Results.Created($"/products/{response.Id}", response);
-
-            }).WithName("CreateProduct").
-            Produces<CreateProductResponse>(StatusCodes.Status201Created).
-            ProducesProblem(StatusCodes.Status400BadRequest).
-            WithSummary("Create Product").
-            WithDescription("Create Product");
+                return Results.Created($"/products/{result.Id}", response);
+            }).WithName("CreateProduct")
+            .Produces<CreateProductResponse>(StatusCodes.Status201Created)
+            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .WithSummary("Create Product")
+            .WithDescription("Create Product");
         }
     }
 }
