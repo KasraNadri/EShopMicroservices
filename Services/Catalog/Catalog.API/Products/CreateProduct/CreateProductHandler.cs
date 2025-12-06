@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using Catalog.API.Models;
-using JasperFx.CodeGeneration.Frames;
-using Marten;
+﻿using Catalog.API.Models;
 
 namespace Catalog.API.Products.CreateProduct
 {
@@ -23,9 +20,11 @@ namespace Catalog.API.Products.CreateProduct
             };
 
             //===== DAVE TO DB =====\\
+            session.Store(product);
 
+            await session.SaveChangesAsync(cancellationToken);  
 
-            return new CreateProductResult(Guid.NewGuid());
+            return new CreateProductResult(product.Id);
 
         }
     }
