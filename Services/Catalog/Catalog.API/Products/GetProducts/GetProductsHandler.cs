@@ -9,10 +9,18 @@ namespace Catalog.API.Products.GetProducts
     {
         public async Task<GetProductsResult> Handle(GetProductsQuery query, CancellationToken cancellationToken)
         {
-            logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
+            try
+            {
+                logger.LogInformation("GetProductsQueryHandler.Handle called with {@Query}", query);
 
-            var products = await session.Query<Product>().ToListAsync(cancellationToken);
-            return new GetProductsResult(products);
+                var products = await session.Query<Product>().ToListAsync(cancellationToken);
+                return new GetProductsResult(products);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message);
+                throw;
+            }
         }
     }
 }
